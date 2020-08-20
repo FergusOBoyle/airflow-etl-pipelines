@@ -28,10 +28,11 @@ def extract_traffic_data():
         driver= "{/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.5.so.2.1}"
     elif platform == "win32":
         driver= "{SQL Server}"
-    server = "traffic-db-sqlserver.c0s0xrpsinuo.eu-west-1.rds.amazonaws.com"
+    server = "traffic-aws-sqlserver.c0s0xrpsinuo.eu-west-1.rds.amazonaws.com"
     database = "traffic"
     user = secret["username"]
     password = secret["password"]
+
 
     conn = pyodbc.connect("Driver=" + driver + ";"
                         "Server=" + server + ";"
@@ -76,3 +77,5 @@ def extract_traffic_data():
     cursor_desc.executemany(sql, params)
     conn.commit()
     print(f'{time.time() - t0:.1f} seconds')
+
+    

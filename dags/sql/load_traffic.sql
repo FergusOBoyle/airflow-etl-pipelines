@@ -1,0 +1,1 @@
+INSERT INTO traffic_daily_aggregates  VALUES ('hello', 5, 5, 5, 5, 5)
