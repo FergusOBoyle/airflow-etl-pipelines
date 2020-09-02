@@ -10,7 +10,6 @@ from airflow.operators.mssql_operator import MsSqlOperator
 from airflow.utils.dates import days_ago
 
 from extract import extract_traffic_data
-from tii_to_s3 import tii_to_s3
 #from s3_to_sqlserver import s3_to_sqlserver
 
 # These args will get passed on to each operator
@@ -47,7 +46,7 @@ dag = DAG(
 
 #t1 = PythonOperator(task_id= "extract_traffic", python_callable=extract_traffic_data, dag=dag)
 
-t1 =  PythonOperator(task_id= "extract_traffic", python_callable=tii_to_s3, dag=dag)
+#t1 =  PythonOperator(task_id= "extract_traffic", python_callable=tii_to_s3, dag=dag)
 
 #t2 = PythonOperator(task_id= "extract_traffic", python_callable=s3_to_sqlserver, dag=dag)
 
