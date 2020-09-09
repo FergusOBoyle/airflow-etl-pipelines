@@ -22,6 +22,7 @@ export \
   AIRFLOW__CORE__EXECUTOR \
   AIRFLOW__CORE__FERNET_KEY \
   AIRFLOW__CORE__LOAD_EXAMPLES \
+  AIRFLOW_CONN_FERGUS \
 
 # Install custom python package if requirements.txt is present
 if [ -e "/requirements.txt" ]; then
@@ -41,6 +42,7 @@ wait_for_port() {
     sleep 5
   done
 }
+
 
 # Other executors than SequentialExecutor drive the need for an SQL database, here PostgreSQL is used
 if [ "$AIRFLOW__CORE__EXECUTOR" != "SequentialExecutor" ]; then
@@ -110,6 +112,7 @@ fi
 case "$1" in
   webserver)
     airflow initdb
+    python "$AIRFLOW_HOME"/scripts/config_conns.py
     if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ] || [ "$AIRFLOW__CORE__EXECUTOR" = "SequentialExecutor" ]; then
       # With the "Local" and "Sequential" executors it should all run in one container.
       airflow scheduler &
@@ -133,3 +136,4 @@ case "$1" in
     exec "$@"
     ;;
 esac
+

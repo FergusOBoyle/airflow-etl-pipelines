@@ -108,6 +108,7 @@ RUN pip install pymssql
 
 COPY entrypoint.sh /entrypoint.sh
 COPY airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
+COPY connections.yaml ${AIRFLOW_USER_HOME}/connections.yaml
 
 RUN chown -R airflow: ${AIRFLOW_USER_HOME}
 

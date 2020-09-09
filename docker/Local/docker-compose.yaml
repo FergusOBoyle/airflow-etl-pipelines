@@ -27,6 +27,7 @@ services:
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
+            - AIRFLOW__CORE__FERNET_KEY='5khjrdIFKBxsWQDGF8FI2u80rs_lA0bsheu2gJTwWGk='
         logging:
             options:
                 max-size: 10m
@@ -34,9 +35,11 @@ services:
         volumes:
             - ./../../dags:/usr/local/airflow/dags
             - ./../../plugins:/usr/local/airflow/plugins
+            - ./../../scripts:/usr/local/airflow/scripts
             - C:\Users\foboyle\.aws:/usr/local/airflow/.aws
+            
         ports:
-            - 8080
+            - "8080:8080"
         command: webserver
         healthcheck:
             test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]

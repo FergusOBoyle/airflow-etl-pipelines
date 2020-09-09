@@ -1,0 +1,9 @@
+connections:
+    mssql_aws:
+        conn_id: mssql_aws
+        conn_type: mssql+odbc
+        conn_host: traffic-aws-sqlserver.c0s0xrpsinuo.eu-west-1.rds.amazonaws.com
+        conn_port: 1433
+        conn_schema: traffic
+        secrets: traffic-sql-secret
+
