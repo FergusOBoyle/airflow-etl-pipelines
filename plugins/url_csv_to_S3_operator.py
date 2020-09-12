@@ -20,6 +20,8 @@ def to_s3(bucket,filename, content):
         key = filename
         client.put_object(Bucket=bucket, Key=key, Body=content)
 
+
+
 log = logging.getLogger(__name__)
 
 class UrlCsvToS3Operator(BaseOperator):
@@ -54,7 +56,8 @@ class UrlCsvToS3Operator(BaseOperator):
         print(self.s3_filename)
         to_s3(self.bucket, self.s3_filename, response.content)
 
-        self.xcom_push(context, "my_file_name", "Fergs")
+        log.info("Filename being pushed: %s", self.s3_filename )
+        self.xcom_push(context, "traffic_file_in_s3", self.s3_filename)
 
         #self.s3_filename.xcom_push
 

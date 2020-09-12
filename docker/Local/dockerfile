@@ -104,7 +104,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     && unzip awscliv2.zip \
     && ./aws/install
 
-RUN pip install pymssql
+RUN pip install pymssql \
+    && pip install apache-airflow-backport-providers-odbc
 
 COPY entrypoint.sh /entrypoint.sh
 COPY airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg

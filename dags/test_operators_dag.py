@@ -24,15 +24,16 @@ pull_task = UrlCsvToS3Operator( url='https://data.tii.ie/Datasets/TrafficCountDa
                                     '.csv',
                                     task_id='my_first_operator_task', dag=dag)                                    
 
-"""
-db_write_task = S3CsvToMssqlOperator( task_id='sql_write_task', dag=dag)
-"""
 
-db_write_task = MsSqlOperator(
-    task_id='sql-op',
-    mssql_conn_id='mssql_aws',
-    sql='sql/load_traffic.sql',
-    dag=dag)
+db_write_task = S3CsvToMssqlOperator(   bucket='traffic-reports',
+                                        s3_filename='traffic-report-' + \
+                                        '{{ (execution_date - macros.timedelta(days=1)).strftime("%Y-%m-%d")}}' + \
+                                        '.csv', 
+                                        mssql_conn_id='mssql_aws',
+                                        task_id='sql_write_task',
+                                        dag=dag)
+
+
 
 
 dummy_task >> pull_task >> db_write_task
