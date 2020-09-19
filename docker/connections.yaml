@@ -7,3 +7,18 @@ connections:
         conn_schema: traffic
         secrets: traffic-sql-secret
 
+    postgres_aws:
+        conn_id: postgres_aws
+        conn_type: mssql+odbc
+        conn_host: aws-postgres.c0s0xrpsinuo.eu-west-1.rds.amazonaws.com
+        conn_port: 5432
+        conn_schema: traffic
+        secrets: traffic-postgres-secret
+
+    backend_database:
+        conn_type: mssql+odbc
+        conn_host: aws-postgres.c0s0xrpsinuo.eu-west-1.rds.amazonaws.com
+        conn_port: 5432
+        conn_schema: airflow
+        secrets: airflow-backend-secret
+

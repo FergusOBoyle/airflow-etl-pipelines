@@ -3,16 +3,16 @@
 
 version: '3.7'
 services:
-    postgres:
-        image: postgres:9.6
-        environment:
-            - POSTGRES_USER=airflow
-            - POSTGRES_PASSWORD=airflow
-            - POSTGRES_DB=airflow
-        logging:
-            options:
-                max-size: 10m
-                max-file: "3"
+    # postgres:
+    #     image: postgres:9.6
+    #     environment:
+    #         - POSTGRES_USER=airflow
+    #         - POSTGRES_PASSWORD=airflow
+    #         - POSTGRES_DB=airflow
+    #     logging:
+    #         options:
+    #             max-size: 10m
+    #             max-file: "3"
 
     webserver:
         #image: puckel/docker-airflow:1.10.9
@@ -22,8 +22,8 @@ services:
             args:
                 PYTHON_DEPS: ""  
         restart: always
-        depends_on:
-            - postgres
+        # depends_on:
+        #     - postgres
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
