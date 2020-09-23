@@ -1,28 +1,20 @@
 version: '3.7'
 services:
-    postgres:
-        image: postgres:9.6
-        environment:
-            - POSTGRES_USER=airflow
-            - POSTGRES_PASSWORD=airflow
-            - POSTGRES_DB=airflow
-        logging:
-            options:
-                max-size: 10m
-                max-file: "3"
-
     webserver:
         image: foboyle/airflow-etl:latest
         restart: always
-        depends_on:
-            - postgres
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
+            - AIRFLOW__CORE__FERNET_KEY='5khjrdIFKBxsWQDGF8FI2u80rs_lA0bsheu2gJTwWGk='
         logging:
             options:
                 max-size: 10m
                 max-file: "3"
+        volumes:
+            - /home/ubuntu/airflow/dags:/usr/local/airflow/dags
+            - /home/ubuntu/airflow/plugins:/usr/local/airflow/plugins
+            - /home/ubuntu/airflow/scripts:/usr/local/airflow/scripts
         ports:
             - "8080:8080"
         command: webserver
@@ -31,3 +23,5 @@ services:
             interval: 30s
             timeout: 30s
             retries: 3
+
+
