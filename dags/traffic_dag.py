@@ -6,8 +6,8 @@ from airflow.operators import S3CsvToMssqlOperator
 from airflow.operators import S3CsvToPostgresOperator
 from airflow.operators.mssql_operator import MsSqlOperator
 
-dag = DAG('traffic_dag', description='Extract traffic data and push to AWS database',
-          schedule_interval='0 12 * * *',
+dag = DAG('traffic_dag2', description='Extract traffic data and push to AWS database',
+          schedule_interval='0 * * * *',
           start_date=datetime(2017, 3, 20), catchup=False)
 
 dummy_task = DummyOperator(task_id='dummy_task', dag=dag)

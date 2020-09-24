@@ -75,6 +75,8 @@ class S3CsvToPostgresOperator(BaseOperator):
     """
     Airflow operator that lets user provide csv filename and S3 bucket
     to be transferred to the the traffic aggregation table on  postgres db
+    
+    Idempotent operation.
 
     The s3_filename field is templated.   
     """
@@ -101,7 +103,7 @@ class S3CsvToPostgresOperator(BaseOperator):
 
         #TODO: Make the Operator generic to any number of cols in CSV file
         next(reader)
-        params = [[row[0], int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(row[5])] for row in reader]
+        params = [[row[0], int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(row[5]), self.s3_filename] for row in reader]
 
         
         #TODO: Use hooks to avail of the connections set up within Airflow rather than
@@ -128,7 +130,9 @@ class S3CsvToPostgresOperator(BaseOperator):
                                   database = database)   
             cursor = connection.cursor()
             
-            cursor = connection.cursor()
+            sql = "DELETE FROM dev.traffic_daily_aggregates WHERE filename = %s"
+            cursor.execute(sql, (self.s3_filename,))  
+
             sql = "INSERT INTO dev.traffic_daily_aggregates VALUES %s"
             execute_values(cursor,sql,params)   
             connection.commit()
