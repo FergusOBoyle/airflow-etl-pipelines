@@ -38,15 +38,17 @@ POSTGRES_PASSWORD=$(python "$AIRFLOW_HOME"/scripts/get_conn_setting.py backend_d
 POSTGRES_DB=$(python "$AIRFLOW_HOME"/scripts/get_conn_setting.py backend_database conn_schema)
 POSTGRES_EXTRAS=""
 
-echo "$POSTGRES_PASSWORD"
-echo "$POSTGRES_PORT"
-echo "$POSTGRES_HOST"
-
 AIRFLOW__CORE__SQL_ALCHEMY_CONN="postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}${POSTGRES_EXTRAS}"
 export AIRFLOW__CORE__SQL_ALCHEMY_CONN
 
+#Fixed bug where the airflow command line was giving "error: cannot use sqlite with the LocalExecutor"
+#Solution suggested here: https://github.com/puckel/docker-airflow/issues/446
+echo "export AIRFLOW__CORE__SQL_ALCHEMY_CONN=${AIRFLOW__CORE__SQL_ALCHEMY_CONN}" >> ~/.bashrc
 
+#TODO: This line is throwing an error
+#Dig into why it is necessary and why throwing an error
 wait_for_port "Postgres" "$POSTGRES_HOST" "$POSTGRES_PORT"
+
 
 
 # CeleryExecutor drives the need for a Celery broker, here Redis is used
