@@ -109,11 +109,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN pip install pymssql \
     && pip install apache-airflow-backport-providers-odbc 
 
-
-#RUN apt-get update -yqq \
-#    && apt-get upgrade -yqq \
-#    && apt-get install -yqq postgresql-dev gcc python3-dev musl-dev
-
 RUN apt-get update -yqq \
     && ACCEPT_EULA=Y \
     && apt-get upgrade -yqq \
